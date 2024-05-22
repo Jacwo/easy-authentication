@@ -2,5 +2,7 @@ dependencies {
     implementation "org.apereo.cas:cas-server-support-jdbc:$version"
     implementation "org.apereo.cas:cas-server-support-jdbc-authentication:$version"
     implementation "org.apereo.cas:cas-server-support-jdbc-drivers:$version"
+    compileOnly "org.apereo.cas:cas-server-core-authentication-api:$version"
+    compileOnly "org.apereo.cas:cas-server-core-util-api:$version"
 
 }
