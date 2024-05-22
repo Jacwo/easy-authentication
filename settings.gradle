@@ -104,4 +104,5 @@ dependencyResolutionManagement {
 //        }
     }
 }
+include 'authentication-jdbc'
 
