@@ -7,5 +7,6 @@ dependencies {
     implementation project(":authentication-pac4j")
     implementation project(":authentication-jdbc")
     implementation project(":authentication-service")
+    implementation project(":authentication-rest")
 
 }
