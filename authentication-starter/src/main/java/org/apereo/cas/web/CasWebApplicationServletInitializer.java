@@ -1,4 +1,4 @@
-package web;
+package org.apereo.cas.web;
 
 import org.apereo.cas.util.app.ApplicationUtils;
 import org.apereo.cas.util.spring.boot.AbstractCasSpringBootServletInitializer;

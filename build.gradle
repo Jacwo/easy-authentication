@@ -28,9 +28,9 @@ buildscript {
         classpath "io.freefair.gradle:lombok-plugin:$gradleLombokVersion"
         classpath "com.github.ben-manes:gradle-versions-plugin:$gradleDependencyVersionsVersion"
         classpath "org.graalvm.buildtools:native-gradle-plugin:${gradleGraalVmNativePluginVersion}"
-       // classpath "net.ltgt.gradle:gradle-errorprone-plugin:$gradleErrorProneVersion"
+        // classpath "net.ltgt.gradle:gradle-errorprone-plugin:$gradleErrorProneVersion"
         classpath "com.github.johnrengelman:shadow:$gradleShadowVersion"
-        classpath "io.github.gradle-nexus:publish-plugin:$gradleNexusPublishingVersion"
+        //classpath "io.github.gradle-nexus:publish-plugin:$gradleNexusPublishingVersion"
     }
 }
 
@@ -80,14 +80,11 @@ ext {
     ]
 }
 
-def isArtifactSigningRequired = {
-    publishReleases && !skipArtifactSigning
-}
+
 
 
 apply from: rootProject.file("gradle/dependencies.gradle")
-apply from: rootProject.file("gradle/dependencyUpdates.gradle")
-
+//apply from: rootProject.file("gradle/dependencyUpdates.gradle")
 
 
 allprojects {
@@ -109,15 +106,13 @@ allprojects {
         logger.info("The OS platform architecture for this Gradle build is reset to ${arch} for ${name}")
     }
 
-    if (rootProject.generateGitProperties) {
-        apply plugin: "com.gorylenko.gradle-git-properties"
-    }
+  //  apply plugin: "com.gorylenko.gradle-git-properties"
 
     project.ext["forceBootifulArtifact"] = null
 
     afterEvaluate { project ->
-        if (rootProject.generateGitProperties) {
-            gitProperties {
+        if (true) {
+           /* gitProperties {
                 customProperty 'project.group', project.group
                 customProperty 'project.name', project.name
                 customProperty 'project.version', project.version
@@ -125,7 +120,7 @@ allprojects {
                 extProperty = "gitProps"
                 keys = ["git.branch", "git.build.time", "git.build.user.name",
                         "git.build.version", "git.commit.id", "git.remote.origin.url"]
-            }
+            }*/
         }
     }
 
@@ -148,18 +143,19 @@ allprojects {
         }
     }
 
+    if (projectRequiresLombok(project)) {
+        apply plugin: "io.freefair.lombok"
+        lombok {
+            version = "$lombokVersion"
+        }
+    }
+
+
 }
 
 subprojects {
-    if (projectShouldBePublished(project)) {
-        apply plugin: "maven-publish"
-        apply plugin: "signing"
-    }
-
-    /*if (!rootProject.skipErrorProneCompiler) {
-        apply plugin: "net.ltgt.errorprone"
-    }*/
-    //apply from: rootProject.file("gradle/tests.gradle")
+    apply plugin: "maven-publish"
+    apply plugin: "signing"
 
     ext.libraries = rootProject.ext.libraries
 
@@ -170,10 +166,6 @@ subprojects {
 
     apply from: rootProject.file("gradle/overrides.gradle")
 
-    /**
-     * Apply publishing rules after the build has had a chance to
-     * evaluate sub-projects to apply plugins, etc.
-     */
 
     sourceSets {
         main {
@@ -187,134 +179,32 @@ subprojects {
                 srcDirs = ["${projectDir}/src/main/resources"]
             }
         }
-        test {
-            java {
-                srcDirs = ["${projectDir}/src/test/java"]
-            }
-            resources {
-                srcDirs = ["${projectDir}/src/test/resources"]
-            }
-        }
     }
 
     ext.buildJarFile = new File(project.layout.buildDirectory.getAsFile().get(), "libs/${project.name}-${project.version}.jar")
-
-    [compileTestJava, compileJava].each {
-        it.inputs.property("github.repository") {
-            System.getenv("GITHUB_REPOSITORY") ?: "apereo/cas"
-        }
-
-        if (rootProject.generateGitProperties) {
-            it.dependsOn("generateGitProperties")
-        }
-
-        it.options.fork = true
-        it.options.incremental = true
-
-        def casCompilerArgs = ["-parameters"]
-        if (rootProject.ext.terminateCompilerOnWarning) {
-            casCompilerArgs.add("-Werror")
-        }
-
-/*        if (!rootProject.skipErrorProneCompiler) {
-            it.options.errorprone.disableAllChecks = !rootProject.ext.terminateCompilerOnWarning
-            it.options.errorprone.allErrorsAsWarnings = false
-            it.options.errorprone.disableWarningsInGeneratedCode = true
-            it.options.errorprone.excludedPaths = ".*com/duosecurity.*"
-            it.options.errorprone.errorproneArgs = ['-Xep:StatementSwitchToExpressionSwitch:OFF',
-                                                    '-Xep:ClassCanBeStatic:OFF',
-                                                    '-Xep:NotJavadoc:OFF',
-                                                    '-Xep:AddressSelection:OFF']
-            casCompilerArgs.add("-XDcompilePolicy=byfile")
-        }
-        it.options.compilerArgs += casCompilerArgs*/
-    }
-
-    if (projectRequiresLombok(project)) {
-        apply plugin: "io.freefair.lombok"
-        lombok {
-            version = "$lombokVersion"
-        }
-    }
-
-    tasks.named('jar') {
-        def projectName = project.name
-        def projectGroup = project.group
-        def projectVersion = project.version
-        def projectSpecVersion = project.ext.has("gitProps") ? project.ext.gitProps['git.commit.id'] : 'N/A'
-        manifest {
-            attributes(
-                    "Automatic-Module-Name": project.name.replace("-", "."),
-                    "Implementation-Title": projectName,
-                    "Implementation-Vendor": projectGroup,
-                    "Created-By": projectGroup)
-            if (generateTimestamps) {
-                attributes("Implementation-Date": java.time.ZonedDateTime.now(java.time.ZoneOffset.UTC))
-            }
-            attributes(
-                    "Specification-Version": projectSpecVersion,
-                    "Implementation-Version": projectVersion)
-        }
-    }
-
-    dependencies {
-
-        implementation libraries.aspectj
-
-        api libraries.swaggerannotations
-        api libraries.slf4j
-        api libraries.guava
-        api libraries.commons
-        api libraries.persondirectory
-        api libraries.spring
-        api libraries.jackson
-        api libraries.httpclient
-        api libraries.quartz
-        api libraries.groovy
-        api libraries.caffein
-        api libraries.springcloud
-        api libraries.springboot
-        api libraries.springsecurity
-        api libraries.springintegration
-        api libraries.springwebflow
-        api libraries.jakarta
-
-        annotationProcessor libraries.springindexer
-/*
-        if (!providers.systemProperty("skipErrorProneCompiler").present) {
-            errorprone "com.google.errorprone:error_prone_core:$errorProneVersion"
-        }*/
-
-        testImplementation libraries.tests
-        testImplementation libraries.log4j
-        testImplementation libraries.hibernatevalidator
-
-        runtimeOnly libraries.httpclient4
-    }
 }
 
-if (!gradle.startParameter.excludedTaskNames.contains("javadoc") || rootProject.publishFlag) {
-    tasks.withType(Javadoc).configureEach {
-        source subprojects.collect { project -> project.sourceSets.main.allJava }
-        destinationDir = new File(project.layout.buildDirectory.getAsFile().get(), "javadoc")
-        classpath = files(subprojects.collect { project -> project.sourceSets.main.compileClasspath })
-        options.addBooleanOption('html5', true)
-        failOnError = providers.systemProperty("ignoreJavadocFailures").present
-    }
 
-    tasks.register('aggregateJavadocsIntoJar', Jar) {
-        dependsOn javadoc
-        description = "Aggregate all Javadocs into a single directory"
-        archiveClassifier.set("javadoc")
-        from javadoc
-    }
-}
-
-if (rootProject.publishFlag) {
-    tasks.register('rootSourcesJar', Jar) {
-        description = "Build JAR for the root CAS module"
-        archiveBaseName.set("${project.archivesBaseName}")
-        from rootProject.file("src")
+tasks.named('jar') {
+    def projectName = project.name
+    def projectGroup = project.group
+    def projectVersion = project.version
+    def projectSpecVersion = project.ext.has("gitProps") ? project.ext.gitProps['git.commit.id'] : 'N/A'
+    manifest {
+        attributes(
+                "Automatic-Module-Name": project.name.replace("-", "."),
+                "Implementation-Title": projectName,
+                "Implementation-Vendor": projectGroup,
+                "Created-By": projectGroup)
+        attributes(
+                "Specification-Version": projectSpecVersion,
+                "Implementation-Version": projectVersion,
+        )
+        if(projectName.contains("starter")){
+            attributes(
+                    'Main-Class': 'org.apereo.cas.web.CasWebApplication'
+            )
+        }
     }
 }
 
@@ -325,55 +215,6 @@ tasks.register('gradleHome') {
     }
 }
 
-if (rootProject.publishFlag && !rootProject.publishMinimalArtifacts) {
-    artifacts {
-        archives tasks.named('aggregateJavadocsIntoJar')
-        archives tasks.named('rootSourcesJar')
-    }
-}
-
-if (gradle.startParameter.taskNames.any { task -> task.startsWith("jacoco") }) {
-    tasks.register('jacocoRootReport', JacocoReport) {
-        outputs.cacheIf { true }
-
-        subprojects.each {subproject -> {
-            if (!subproject.path.contains(":docs")) {
-                subproject.tasks.withType(Test).each{ task ->
-                    dependsOn(task)
-                    mustRunAfter(task)
-                }
-            }
-        }}
-
-        def executions = subprojects.collect {subproject ->
-            def execFile = subproject.layout.buildDirectory.file('jacoco/jacocoTest.exec').get().asFile
-            if (execFile.exists()) {
-                logger.info "${subproject.name} with execution file ${execFile}"
-                inputs.file(execFile).withPropertyName("${subproject.name}-jacoco").withPathSensitivity(PathSensitivity.RELATIVE)
-            }
-            execFile
-        }
-
-        logger.info "Coverage execution data files: ${executions}"
-        executionData.from(executions)
-        outputs.files(rootProject.layout.buildDirectory.file('reports/jacoco/jacocoRootReport/jacocoRootReport.xml').get().asFile)
-
-        reports {
-//            html.required.set(true)
-            xml.required.set(true)
-            csv.required.set(true)
-        }
-        additionalSourceDirs.setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
-        sourceDirectories.setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
-        classDirectories.setFrom(
-                files(subprojects.sourceSets.main.output).collect {
-                    fileTree(dir: it,
-                            include: ['**/*.*'],
-                            exclude: rootProject.excludedFilesFromTestCoverage
-                    )
-                })
-    }
-}
 
 tasks.register('casVersion') {
     description = "Display current CAS version"
@@ -418,11 +259,11 @@ tasks.register('publishProjectModules') {
                 metadata.put("selectable", true)
             }
             results += [
-                    name: it.name,
-                    version: it.version,
-                    group: it.group,
+                    name       : it.name,
+                    version    : it.version,
+                    group      : it.group,
                     description: it.description,
-                    details: metadata
+                    details    : metadata
             ]
         }
     }
@@ -432,16 +273,6 @@ tasks.register('publishProjectModules') {
         outputFile.write json
         println "Published project modules to ${outputFile}"
     }
-}
-
-boolean projectShouldBePublished(Project project) {
-    def publishable = !["api", "core", "docs", "support", "webapp"].contains(project.name)
-            && !project.getPath().contains("cas-server-documentation")
-    if ("${releaseRepositoryUrl}".contains("github.com") && project.getPath().contains("cas-server-support-shell")) {
-        // shell is too big for github
-        publishable = false
-    }
-    project.ext.publishable = publishable
 }
 
 boolean projectRequiresLombok(Project project) {

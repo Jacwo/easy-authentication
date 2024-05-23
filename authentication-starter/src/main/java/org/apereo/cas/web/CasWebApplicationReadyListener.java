@@ -1,4 +1,4 @@
-package web;
+package org.apereo.cas.web;
 
 import org.apereo.cas.util.spring.CasEventListener;
 import org.springframework.boot.context.event.ApplicationReadyEvent;

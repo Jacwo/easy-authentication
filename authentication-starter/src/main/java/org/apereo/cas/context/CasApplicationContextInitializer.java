@@ -1,4 +1,4 @@
-package context;
+package org.apereo.cas.context;
 
 import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;

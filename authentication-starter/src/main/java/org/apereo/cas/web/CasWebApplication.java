@@ -1,4 +1,4 @@
-package web;
+package org.apereo.cas.web;
 
 import lombok.NoArgsConstructor;
 import lombok.val;
