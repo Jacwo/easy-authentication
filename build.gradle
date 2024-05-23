@@ -91,6 +91,7 @@ allprojects {
     apply plugin: "idea"
     apply plugin: "eclipse"
     apply plugin: "java-library"
+    apply plugin: "org.springframework.boot"
 
 
     if (gradle.startParameter.taskNames.any { task -> task.contains("publishToMavenLocal") }) {
@@ -106,13 +107,12 @@ allprojects {
         logger.info("The OS platform architecture for this Gradle build is reset to ${arch} for ${name}")
     }
 
-  //  apply plugin: "com.gorylenko.gradle-git-properties"
 
     project.ext["forceBootifulArtifact"] = null
 
     afterEvaluate { project ->
         if (true) {
-           /* gitProperties {
+          /* gitProperties {
                 customProperty 'project.group', project.group
                 customProperty 'project.name', project.name
                 customProperty 'project.version', project.version
@@ -184,6 +184,10 @@ subprojects {
     ext.buildJarFile = new File(project.layout.buildDirectory.getAsFile().get(), "libs/${project.name}-${project.version}.jar")
 }
 
+tasks.named('bootJar') {
+
+
+}
 
 tasks.named('jar') {
     def projectName = project.name
@@ -200,11 +204,6 @@ tasks.named('jar') {
                 "Specification-Version": projectSpecVersion,
                 "Implementation-Version": projectVersion,
         )
-        if(projectName.contains("starter")){
-            attributes(
-                    'Main-Class': 'org.apereo.cas.web.CasWebApplication'
-            )
-        }
     }
 }
 
