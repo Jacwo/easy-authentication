@@ -6,5 +6,6 @@ dependencies {
     compileOnly libraries.ankacascompile
     implementation project(":authentication-pac4j")
     implementation project(":authentication-jdbc")
+    implementation project(":authentication-service")
 
 }

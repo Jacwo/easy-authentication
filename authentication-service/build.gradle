@@ -1,0 +1,9 @@
+dependencies {
+    implementation "org.apereo.cas:cas-server-support-rest-services:$version"
+    implementation "org.apereo.cas:cas-server-support-rest-tokens:$version"
+
+    implementation "org.apereo.cas:cas-server-support-jpa-service-registry:$version"
+    compileOnly "org.apereo.cas:cas-server-core-util-api:$version"
+    compileOnly "org.apereo.cas:cas-server-core-services-api:$version"
+
+}
