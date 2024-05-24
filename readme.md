@@ -37,7 +37,7 @@
 
 ## 如何新增功能
 
-- 查看cas7.0.4源码
+- 查看cas7.0.4源码 gitlab已上传 https://gitlab.ruishan.cc/yangyuanliang/cas
 - 找到你想要新的功能对应的模块
 - 在当前项目中新增或者已有module中添加依赖
 - 依赖都要在对应module的build.gradle中添加
