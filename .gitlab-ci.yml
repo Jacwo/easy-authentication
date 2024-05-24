@@ -1,1 +1,3 @@
-./package
+build:
+    script: ./package
+    stage: build
