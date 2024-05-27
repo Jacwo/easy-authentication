@@ -1,5 +1,8 @@
 package org.apereo.cas.adaptors.rest;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonParser;
+import org.apache.commons.lang3.StringUtils;
 import org.apereo.cas.DefaultMessageDescriptor;
 import org.apereo.cas.authentication.AuthenticationHandlerExecutionResult;
 import org.apereo.cas.authentication.MessageDescriptor;
@@ -9,8 +12,11 @@ import org.apereo.cas.authentication.exceptions.AccountPasswordMustChangeExcepti
 import org.apereo.cas.authentication.handler.support.AbstractUsernamePasswordAuthenticationHandler;
 import org.apereo.cas.authentication.principal.Principal;
 import org.apereo.cas.authentication.principal.PrincipalFactory;
+import org.apereo.cas.authentication.principal.Service;
 import org.apereo.cas.authentication.support.password.PasswordExpiringWarningMessageDescriptor;
 import org.apereo.cas.configuration.model.support.rest.RestAuthenticationProperties;
+import org.apereo.cas.services.RegisteredService;
+import org.apereo.cas.services.RegisteredServiceProperty;
 import org.apereo.cas.services.ServicesManager;
 import org.apereo.cas.util.DateTimeUtils;
 import org.apereo.cas.util.LoggingUtils;
@@ -35,11 +41,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * This is {@link RestAuthenticationHandler} that authenticates uid/password against a remote
@@ -61,8 +63,8 @@ public class RestAuthenticationHandler extends AbstractUsernamePasswordAuthentic
      */
     public static final String HEADER_NAME_CAS_WARNING = "X-CAS-Warning";
 
-    private static final ObjectMapper MAPPER = JacksonObjectMapperFactory.builder()
-        .defaultTypingEnabled(true).build().toObjectMapper();
+    private static final ObjectMapper MAPPER = JacksonObjectMapperFactory.builder().defaultTypingEnabled(true)
+            .build().toObjectMapper();
 
     private final RestAuthenticationProperties properties;
 
@@ -84,12 +86,28 @@ public class RestAuthenticationHandler extends AbstractUsernamePasswordAuthentic
 
         var response = (HttpResponse) null;
         try {
+            String restUrl = "";
+            Map<String, Object> customFields = credential.getCustomFields();
+            Service service = (Service) customFields.get("service");
+            if(service!=null){
+                RegisteredService serviceBy = getServicesManager().findServiceBy(service);
+                Map<String, RegisteredServiceProperty> properties = serviceBy.getProperties();
+                if(properties!=null){
+                    RegisteredServiceProperty restAuthUrl = properties.get("restAuthUrl");
+                    if(restAuthUrl!=null){
+                        Set<String> values = restAuthUrl.getValues();
+                        if(values!=null){
+                            restUrl =values.iterator().next();
+                        }
+                    }
+                }
+            }
             val exec = HttpExecutionRequest
                 .builder()
                 .basicAuthUsername(credential.getUsername())
                 .basicAuthPassword(credential.toPassword())
                 .method(HttpMethod.valueOf(properties.getMethod().toUpperCase(Locale.ENGLISH)))
-                .url(properties.getUri())
+                .url(StringUtils.isEmpty(restUrl) ? properties.getUri(): restUrl)
                 .httpClient(httpClient)
                 .build();
             response = HttpUtils.execute(exec);
