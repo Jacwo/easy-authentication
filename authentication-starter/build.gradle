@@ -8,14 +8,17 @@ dependencies {
     implementation project(":authentication-jdbc")
     implementation project(":authentication-service")
     implementation project(":authentication-rest")
-    implementation "org.apereo.cas:cas-server-core-authentication-api:$version"
-/*    implementation "org.apereo.cas:cas-server-support-gauth:$version"
+/*    implementation "org.apereo.cas:cas-server-core-authentication-api:$version"
+    implementation "org.apereo.cas:cas-server-support-gauth:$version"
     implementation "org.apereo.cas:cas-server-support-gauth-jpa:$version"
+    implementation "org.apereo.cas:cas-server-support-otp-mfa:$version"
+    implementation "org.apereo.cas:cas-server-support-trusted-mfa:$version"
 
     implementation "org.apereo.cas:cas-server-support-gauth-core:$version"
     implementation "org.apereo.cas:cas-server-support-gauth-core-mfa:$version"
     implementation "org.apereo.cas:cas-server-core-webflow-mfa:$version"
     implementation "org.apereo.cas:cas-server-core-webflow:$version"
-    implementation "org.apereo.cas:cas-server-core-webflow-api:$version"*/
+    implementation "org.apereo.cas:cas-server-core-webflow-api:$version"
+    implementation "org.apereo.cas:cas-server-core-webflow-mfa-api:$version"*/
 
 }
