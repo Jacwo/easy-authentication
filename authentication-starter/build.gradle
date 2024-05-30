@@ -9,6 +9,23 @@ dependencies {
     implementation project(":authentication-service")
     implementation project(":authentication-rest")
     implementation "org.apereo.cas:cas-server-core-authentication-api:$version"
+    implementation "org.apereo.cas:cas-server-support-oauth:$version"
+    implementation "org.apereo.cas:cas-server-support-oauth-api:$version"
+    implementation "org.apereo.cas:cas-server-support-oauth-core:$version"
+    implementation "org.apereo.cas:cas-server-support-oauth-core-api:$version"
+    implementation "org.apereo.cas:cas-server-support-oauth-services:$version"
+    implementation "org.apereo.cas:cas-server-support-oauth-webflow:$version"
+
+    implementation "org.apereo.cas:cas-server-support-pm:$version"
+    implementation "org.apereo.cas:cas-server-support-pm-core:$version"
+    implementation "org.apereo.cas:cas-server-support-pm-webflow:$version"
+
+
+    /*implementation ("org.apereo.cas:cas-server-support-jpa-ticket-registry:$version") {
+        exclude(group: "org.apereo.cas", module: "cas-server-core-monitor")
+
+    }
+*/
     /*    implementation "org.apereo.cas:cas-server-support-gauth:$version"
       implementation "org.apereo.cas:cas-server-support-gauth-jpa:$version"
       implementation "org.apereo.cas:cas-server-support-otp-mfa:$version"

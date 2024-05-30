@@ -33,7 +33,7 @@ import java.util.List;
     DataSourceAutoConfiguration.class,
     HibernateJpaAutoConfiguration.class,
     MongoAutoConfiguration.class,
-    MongoDataAutoConfiguration.class
+    MongoDataAutoConfiguration.class,
 })
 @EnableConfigurationProperties(CasConfigurationProperties.class)
 @EnableAspectJAutoProxy(proxyTargetClass = false)
