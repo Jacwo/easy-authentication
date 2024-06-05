@@ -42,6 +42,8 @@ ext.libraries = [
                 },
                 dependencies.create("org.apereo.cas:cas-server-core-logout:$version") {
                 },
+                dependencies.create("org.apereo.cas:cas-server-core-logout-api:$version") {
+                },
                 dependencies.create("org.apereo.cas:cas-server-core-logging:$version") {
                 },
                 dependencies.create("org.apereo.cas:cas-server-core-services:$version") {
