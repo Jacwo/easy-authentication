@@ -8,7 +8,7 @@
 
 <body class="login mdc-typography">
 <div layout:fragment="content" class="d-flex justify-content-center">
-    <div class="d-flex justify-content-center flex-md-row flex-column mdc-card mdc-card-content card flex-grow-1"
+   <div class="d-flex justify-content-center flex-md-row flex-column mdc-card mdc-card-content card flex-grow-1"
          th:with="loginFormEnabled=${#strings.defaultString(#themes.code('cas.login-form.enabled'), 'true') == 'true'},
                   loginFormViewable=${@casThymeleafTemplatesDirector.isLoginFormViewable(#vars)}">
         <section id="loginForm"
@@ -20,7 +20,7 @@
         </section>
         <span th:if="${#bools.isFalse(delegatedAuthenticationDynamicProviderSelection) && #bools.isFalse(delegatedAuthenticationDisabled)}">
             <section id="loginProviders" class="login-section login-providers card-body"
-                     th:if="${delegatedAuthenticationProviderConfigurations} OR ${wsfedUrls}">
+                    th:if="${delegatedAuthenticationProviderConfigurations} OR ${wsfedUrls}">
                 <div th:replace="~{fragments/loginProviders :: loginProviders}">
                     <a href="fragments/loginProviders.html">loginProviders</a>
                 </div>
