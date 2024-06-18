@@ -1,3 +1,5 @@
+package org.apereo.cas.web.flow.controller;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
@@ -24,7 +26,6 @@ import org.springframework.web.servlet.view.RedirectView;
 @Slf4j
 @RequiredArgsConstructor
 @Getter
-@SuppressWarnings("DefaultPackage")
 public class DefaultDelegatedAuthenticationNavigationController {
     /**
      * Endpoint path controlled by this controller that receives the response to PAC4J.

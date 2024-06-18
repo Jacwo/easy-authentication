@@ -1,5 +1,8 @@
 ## 环境准备
-- 下载JDK21 https://download.oracle.com/java/21/archive/jdk-21.0.2_windows-x64_bin.zip
+- 下载JDK21 
+https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/GPL/openjdk-21.0.2_windows-x64_bin.zip
+https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/GPL/openjdk-21.0.2_linux-x64_bin.tar.gz
+
 - 下载gradle 8.5并配置环境变量 https://gradle.org/next-steps/?version=8.5&format=bin
 - 下载项目git clone http://gitlab.ruishan.cc/meta/anka-authentication.git
 
