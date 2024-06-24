@@ -108,4 +108,4 @@ include 'authentication-jdbc'
 include 'authentication-service'
 include 'authentication-rest'
 include 'authentication-pm'
-
+include 'authentication-api'

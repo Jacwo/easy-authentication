@@ -1,0 +1,3 @@
+dependencies {
+    implementation "org.apereo.cas:cas-server-core-api-web:$version"
+}
