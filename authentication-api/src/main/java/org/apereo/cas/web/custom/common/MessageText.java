@@ -17,10 +17,10 @@ import java.util.Locale;
  * @author wyx
  *
  */
-@AllArgsConstructor
+@Component
 public class MessageText {
 
-
+	@Autowired
 	private MessageSource messageSource;
 
 	public String getMessage(int key, Locale local, Object... params) {
