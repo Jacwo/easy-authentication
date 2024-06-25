@@ -1,7 +1,11 @@
 rootProject.name = 'anka-authentication'
 include 'authentication-starter'
 include 'authentication-pac4j'
-
+include 'authentication-jdbc'
+include 'authentication-service'
+include 'authentication-rest'
+include 'authentication-pm'
+include 'authentication-api'
 
 dependencyResolutionManagement {
     repositories {
@@ -104,8 +108,4 @@ dependencyResolutionManagement {
 //        }
     }
 }
-include 'authentication-jdbc'
-include 'authentication-service'
-include 'authentication-rest'
-include 'authentication-pm'
-include 'authentication-api'
+

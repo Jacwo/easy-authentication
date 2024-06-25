@@ -1,4 +1,4 @@
-package org.apereo.cas.common;
+package org.apereo.cas.web.custom.common;
 
 /**
  * Clients forbidden exception

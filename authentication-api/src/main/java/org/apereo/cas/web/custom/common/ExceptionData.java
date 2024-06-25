@@ -1,4 +1,4 @@
-package org.apereo.cas.common;
+package org.apereo.cas.web.custom.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;

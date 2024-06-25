@@ -1,14 +1,14 @@
 
-package org.apereo.cas.common;
+package org.apereo.cas.web.custom.common;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +26,7 @@ import java.util.List;
 public class BaseController {
 
 	@Autowired
-	MessageText messageText;
+    MessageText messageText;
 
 
 /***
@@ -40,7 +40,7 @@ public class BaseController {
 	@ExceptionHandler({ NullContentException.class })
 	@ResponseBody
 	public ResponseWrapper<ExceptionData> nullContentExceptionHandler(BaseException exception,
-			HttpServletRequest request) {
+                                                                      HttpServletRequest request) {
 		ResponseWrapper<ExceptionData> dataWrapper = new ResponseWrapper<>(HttpStatus.NO_CONTENT);
 		String message = exception.getLocalizedMessage();
 		dataWrapper.setData(null);

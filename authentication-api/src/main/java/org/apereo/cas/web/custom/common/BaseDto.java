@@ -1,4 +1,4 @@
-/*
+package org.apereo.cas.web.custom.common;/*
 package com.ruijie.common;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
