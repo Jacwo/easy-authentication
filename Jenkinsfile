@@ -16,6 +16,7 @@ node("8_248_MAVEN") {
    stage('Maven comple and package') {
       script {
 			sh '''
+			    source /etc/profile
 			    chmod +777 package gradlew
 			    sh package
 			'''	
