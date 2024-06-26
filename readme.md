@@ -38,6 +38,12 @@ https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/
 ![img_4.png](img/img_4.png)
 - 可执行jar包会输出到  authentication-starter/build/libs/authentication-starter-7.0.4.jar
 
+## 简单介绍
+1. DefaultLoginWebflowConfigurer 认证流程
+
+2. configurePasswordResetFlow 密码流程
+
+
 ## 如何新增功能
 
 - 查看cas7.0.4源码 gitlab已上传 https://gitlab.ruishan.cc/yangyuanliang/cas
@@ -47,4 +53,6 @@ https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/
 - 查看cas源码找到对应模块的测试类。
 - 把测试类的配置拷贝到 resources/application.properties
 - 启动测试就ok
+
+
 

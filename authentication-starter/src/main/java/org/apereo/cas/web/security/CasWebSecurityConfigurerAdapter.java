@@ -108,8 +108,8 @@ public class CasWebSecurityConfigurerAdapter {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(AbstractHttpConfigurer::disable)
-                .logout(AbstractHttpConfigurer::disable)
-                .requiresChannel(customizer -> customizer.requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null).requiresSecure());
+                .logout(AbstractHttpConfigurer::disable);
+               // .requiresChannel(customizer -> customizer.requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null).requiresSecure());
 
         val patterns = getAllowedPatternsToIgnore();
         log.debug("Configuring protocol endpoints [{}] to exclude/ignore from http security", patterns);
