@@ -2,4 +2,6 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-parent:$springBootVersion"
     implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     implementation "org.apache.commons:commons-lang3:$commonsLangVersion"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
+
 }

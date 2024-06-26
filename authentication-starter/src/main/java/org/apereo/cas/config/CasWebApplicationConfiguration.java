@@ -1,5 +1,7 @@
 package org.apereo.cas.config;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.configuration.features.CasFeatureModule;
 import org.apereo.cas.util.spring.boot.ConditionalOnFeatureEnabled;
@@ -27,7 +29,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @ConditionalOnFeatureEnabled(feature = CasFeatureModule.FeatureCatalog.WebApplication)
 @AutoConfiguration
 public class CasWebApplicationConfiguration {
-
     @ConditionalOnMissingBean(name = "casWebApplicationReadyListener")
     @Bean
     @Lazy(false)

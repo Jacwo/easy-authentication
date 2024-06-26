@@ -1,18 +1,15 @@
-package org.apereo.cas.web.custom.common;/*
-package com.ruijie.common;
-
+package org.apereo.cas.web.custom.common;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 
-*/
 /**
  * Dto 基类
  * 
  * @author wyx
  *
- *//*
+ */
 
 public abstract class BaseDto implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -30,4 +27,4 @@ public abstract class BaseDto implements Serializable {
         }
     }
 }
-*/
+

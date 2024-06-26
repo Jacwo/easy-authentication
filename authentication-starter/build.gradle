@@ -10,6 +10,12 @@ dependencies {
     implementation project(":authentication-rest")
     implementation project(":authentication-pm")
     implementation project(":authentication-api")
+/*    implementation "org.apereo.cas:cas-server-core-rest-api:$version"
+    implementation "org.apereo.cas:cas-server-core-authentication-throttle:$version"
+    implementation "org.apereo.cas:cas-server-core-audit-api:$version"*/
+    implementation "org.springframework.security:spring-security-web:$springSecurityVersion"
+    implementation "org.springframework.security:spring-security-config:$springSecurityVersion"
+
 
     implementation "org.apereo.cas:cas-server-core-authentication-api:$version"
     implementation "org.apereo.cas:cas-server-support-oauth:$version"

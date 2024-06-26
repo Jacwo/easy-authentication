@@ -1,5 +1,6 @@
 package org.apereo.cas.web.custom.common;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -16,9 +17,11 @@ import java.util.Collection;
  */
 @Getter
 @Setter
+@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
 public class ResponseWrapper<T> {
 	private int code;
 	private String message;
+	@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
 	private T data;
 
 	public ResponseWrapper() {
