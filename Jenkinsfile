@@ -38,7 +38,7 @@ node("8_248_MAVEN") {
                 patternSeparator: '[, ]+', 
                 remoteDirectory: 'docker-build/sourceid/anka-authentication',
                 remoteDirectorySDF: false, 
-                removePrefix: 'authentication-starter',
+                removePrefix: 'authentication-starter/build/libs',
                 sourceFiles: 'authentication-starter/build/libs/authentication-starter-7.0.4.jar')],
                 usePromotionTimestamp: false, 
                 useWorkspaceInPromotion: false, verbose: true)])
