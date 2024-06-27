@@ -303,7 +303,9 @@
                         <input type="hidden" name="_eventId" value="submit"/>
                         <input type="hidden" name="geolocation"/>
                         <input type="hidden" name="crypto" th:value="${crypto}"/>
+<!--
                         <input type="hidden" name="credential" th:object="${credential}"/>
+-->
 
                         <p th:if="${#strings.equalsIgnoreCase(httpRequestMethod, 'POST')}">
                             <span th:each="entry : ${httpRequestInitialPostParameters}" th:remove="tag">

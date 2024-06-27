@@ -87,8 +87,8 @@ public class AESUtil {
             String decStr = new String(cipher.doFinal(dectyptByte), "UTF-8");
             return decStr;
         } catch (Exception e) {
-            log.error("Error while decrypting: " + e.toString());
+
         }
-        return null;
+        return strToDecrypt;
     }
 }
