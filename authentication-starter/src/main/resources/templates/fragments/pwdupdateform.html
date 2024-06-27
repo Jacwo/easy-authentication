@@ -47,6 +47,8 @@
             }
 
         </script>
+        <script type="text/javascript" src="/auth-ui/public/casMustChangePassView/import.js"></script>
+
         <h3 th:utext="${expiredPass}
         ? #{screen.expiredpass.heading(${username})}
         : #{screen.mustchangepass.heading(${username})}">
@@ -185,5 +187,7 @@
 
     </div>
 </main>
+
+
 </body>
 </html>
