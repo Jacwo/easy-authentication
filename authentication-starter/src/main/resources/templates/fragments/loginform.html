@@ -56,7 +56,7 @@
 
                     <div id="loginErrorsPanel" class="banner banner-danger alert alert-danger banner-dismissible"
                          th:if="${#fields.hasErrors('*')}" role="alert">
-                        <p th:each="err : ${#fields.errors('*')}" th:utext="${err + ' '}">Example error</p>
+                        <p class="field-error" th:each="err : ${#fields.errors('*')}" th:utext="${err + ' '}">Example error</p>
                         <!--<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>-->
                     </div>
                     <section class="cas-field form-group my-3" id="usernameSection">
