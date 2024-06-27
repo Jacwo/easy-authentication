@@ -101,7 +101,7 @@ public abstract class AbstractUsernamePasswordAuthenticationHandler extends Abst
             throw new AccountNotFoundException("Encoded password is null.");
         }
         if(userPass.getCrypto()!=null){
-            transformedPsw = AESUtil.encrypt(transformedPsw, userPass.getCrypto());
+            transformedPsw = AESUtil.decrypt(transformedPsw, userPass.getCrypto());
         }
         userPass.assignPassword(transformedPsw);
     }
