@@ -16,6 +16,7 @@ import org.apereo.cas.authentication.principal.PrincipalFactory;
 import org.apereo.cas.authentication.principal.Service;
 import org.apereo.cas.authentication.support.password.PasswordPolicyContext;
 import org.apereo.cas.services.ServicesManager;
+import org.apereo.cas.util.AESUtil;
 import org.apereo.cas.util.function.FunctionUtils;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -80,6 +81,7 @@ public abstract class AbstractUsernamePasswordAuthenticationHandler extends Abst
         val originalUserPass = (UsernamePasswordCredential) credential;
         val userPass = new UsernamePasswordCredential();
         FunctionUtils.doUnchecked(__ -> BeanUtils.copyProperties(userPass, originalUserPass));
+        userPass.setCrypto(originalUserPass.getCrypto());
         transformUsername(userPass);
         transformPassword(userPass);
         Map<String, Object> customFields = new LinkedHashMap<>();
@@ -94,9 +96,12 @@ public abstract class AbstractUsernamePasswordAuthenticationHandler extends Abst
             throw new FailedLoginException("Password is null.");
         }
         log.debug("Attempting to encode credential password via [{}] for [{}]", passwordEncoder.getClass().getName(), userPass.getUsername());
-        val transformedPsw = passwordEncoder.encode(userPass.toPassword());
+        String transformedPsw = passwordEncoder.encode(userPass.toPassword());
         if (StringUtils.isBlank(transformedPsw)) {
             throw new AccountNotFoundException("Encoded password is null.");
+        }
+        if(userPass.getCrypto()!=null){
+            transformedPsw = AESUtil.encrypt(transformedPsw, userPass.getCrypto());
         }
         userPass.assignPassword(transformedPsw);
     }
