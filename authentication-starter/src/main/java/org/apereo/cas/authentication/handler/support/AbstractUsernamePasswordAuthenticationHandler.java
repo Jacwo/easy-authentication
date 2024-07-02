@@ -23,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.security.auth.login.AccountNotFoundException;
 import javax.security.auth.login.FailedLoginException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -123,12 +124,16 @@ public abstract class AbstractUsernamePasswordAuthenticationHandler extends Abst
             throw new AccountNotFoundException("Username is null.");
         }
         log.debug("Transforming credential username via [{}]", principalNameTransformer.getClass().getName());
-        val transformedUsername = principalNameTransformer.transform(userPass.getUsername());
+        String transformedUsername = principalNameTransformer.transform(userPass.getUsername());
+        byte[] bytes = transformedUsername.getBytes(StandardCharsets.ISO_8859_1);
+        transformedUsername = new String(bytes,StandardCharsets.UTF_8);
         if (StringUtils.isBlank(transformedUsername)) {
             throw new AccountNotFoundException("Transformed username is null.");
         }
         userPass.setUsername(transformedUsername);
     }
+
+
 
     /**
      * Authenticates a username/password credential by an arbitrary strategy with extra parameter original credential password before
