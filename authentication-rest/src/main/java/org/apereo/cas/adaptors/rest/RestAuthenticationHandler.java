@@ -1,7 +1,10 @@
 package org.apereo.cas.adaptors.rest;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonParser;
+
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import groovy.json.JsonOutput;
 import org.apache.commons.lang3.StringUtils;
 import org.apereo.cas.DefaultMessageDescriptor;
 import org.apereo.cas.authentication.AuthenticationHandlerExecutionResult;
@@ -13,6 +16,7 @@ import org.apereo.cas.authentication.handler.support.AbstractUsernamePasswordAut
 import org.apereo.cas.authentication.principal.Principal;
 import org.apereo.cas.authentication.principal.PrincipalFactory;
 import org.apereo.cas.authentication.principal.Service;
+import org.apereo.cas.authentication.principal.SimplePrincipal;
 import org.apereo.cas.authentication.support.password.PasswordExpiringWarningMessageDescriptor;
 import org.apereo.cas.configuration.model.support.rest.RestAuthenticationProperties;
 import org.apereo.cas.services.RegisteredService;
@@ -31,6 +35,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.hc.core5.http.HttpEntityContainer;
 import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.NameValuePair;
+import org.hjson.JsonObject;
+import org.springframework.boot.json.GsonJsonParser;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import javax.security.auth.login.AccountExpiredException;
@@ -64,7 +71,9 @@ public class RestAuthenticationHandler extends AbstractUsernamePasswordAuthentic
     public static final String HEADER_NAME_CAS_WARNING = "X-CAS-Warning";
 
     private static final ObjectMapper MAPPER = JacksonObjectMapperFactory.builder().defaultTypingEnabled(true)
-            .build().toObjectMapper();
+            .build().toObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .configure(MapperFeature.AUTO_DETECT_CREATORS, true)
+            .configure(MapperFeature.AUTO_DETECT_FIELDS, true);;
 
     private final RestAuthenticationProperties properties;
 
@@ -102,16 +111,36 @@ public class RestAuthenticationHandler extends AbstractUsernamePasswordAuthentic
                     }
                 }
             }
+
+            Map<String,Object> reqMap =new HashMap<>();
+            reqMap.put("username", credential.getUsername());
+            reqMap.put("password",new String(credential.getPassword()));
+            Map<String, String> headMap = new HashMap<>();
+            headMap.put(HttpHeaders.CONTENT_TYPE, "application/json");
             val exec = HttpExecutionRequest
-                .builder()
-                .basicAuthUsername(credential.getUsername())
-                .basicAuthPassword(credential.toPassword())
-                .method(HttpMethod.valueOf(properties.getMethod().toUpperCase(Locale.ENGLISH)))
+                .builder().entity(JsonOutput.toJson(reqMap)).headers(headMap)
+                    .method(HttpMethod.valueOf(properties.getMethod().toUpperCase(Locale.ENGLISH)))
                 .url(StringUtils.isEmpty(restUrl) ? properties.getUri(): restUrl)
                 .httpClient(httpClient)
                 .build();
             response = HttpUtils.execute(exec);
-            val status = HttpStatus.resolve(Objects.requireNonNull(response).getCode());
+            val content = ((HttpEntityContainer) response).getEntity().getContent();
+            val result = IOUtils.toString(content, StandardCharsets.UTF_8);
+            ResponseWrapper responseWrapper = JSONObject.parseObject(result, ResponseWrapper.class);
+            int code = responseWrapper.getCode();
+            if(HttpStatus.OK.value() == code){
+                Object data = responseWrapper.getData();
+                Map map = JSONObject.parseObject(JsonOutput.toJson(data), Map.class);
+
+                Map<String, List<Object>> attributes =new TreeMap<>();
+                attributes.put("id",Arrays.asList(map.get("id")));
+                attributes.put("tenantId",Arrays.asList(map.get("tenantId")));
+                val principal = principalFactory.createPrincipal(credential.getUsername(), attributes);
+                return createHandlerResult(credential, principal, getWarnings(response));
+            }else{
+                throw new FailedLoginException("Could not authenticate account for " + credential.getUsername());
+            }
+           /* val status = HttpStatus.resolve(Objects.requireNonNull(response).getCode());
             return switch (Objects.requireNonNull(status)) {
                 case OK -> buildPrincipalFromResponse(credential, response);
                 case FORBIDDEN -> throw new AccountDisabledException("Could not authenticate forbidden account for " + credential.getUsername());
@@ -121,7 +150,7 @@ public class RestAuthenticationHandler extends AbstractUsernamePasswordAuthentic
                 case PRECONDITION_FAILED -> throw new AccountExpiredException("Could not authenticate expired account for " + credential.getUsername());
                 case PRECONDITION_REQUIRED -> throw new AccountPasswordMustChangeException("Account password must change for " + credential.getUsername());
                 default -> throw new FailedLoginException("Rest endpoint returned an unknown status code " + status + " for " + credential.getUsername());
-            };
+            };*/
         } finally {
             HttpUtils.close(response);
         }
@@ -134,6 +163,7 @@ public class RestAuthenticationHandler extends AbstractUsernamePasswordAuthentic
             try (val content = ((HttpEntityContainer) response).getEntity().getContent()) {
                 val result = IOUtils.toString(content, StandardCharsets.UTF_8);
                 log.debug("REST authentication response received: [{}]", result);
+
                 val principalFromRest = MAPPER.readValue(result, Principal.class);
                 val principal = principalFactory.createPrincipal(principalFromRest.getId(), principalFromRest.getAttributes());
                 return createHandlerResult(credential, principal, getWarnings(response));

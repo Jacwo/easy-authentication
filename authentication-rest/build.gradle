@@ -1,5 +1,6 @@
 dependencies {
     implementation "org.apereo.cas:cas-server-support-rest-authentication:$version"
+    implementation 'com.alibaba:fastjson:1.2.78'
     compileOnly "org.apereo.cas:cas-server-core-util-api:$version"
     compileOnly "org.apereo.cas:cas-server-core-authentication-api:$version"
 

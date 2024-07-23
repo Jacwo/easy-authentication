@@ -1,25 +1,41 @@
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.apache.http.client.methods.CloseableHttpResponse
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.ContentType
+import org.apache.http.entity.StringEntity
+import org.apache.http.impl.client.HttpClients
 import org.apereo.cas.authentication.Credential
 import org.apereo.cas.pm.*
-import groovy.sql.Sql
+
+import java.nio.charset.StandardCharsets
+
 def change(Object[] args) {
+
+
     def passwordChangeBean = args[0] as PasswordChangeRequest
     def logger = args[1]
-    def url = 'jdbc:postgresql://172.17.9.95:35432/cas'
-    def user = 'postgres'
-    def password = 'abc123Aa'
+    def username = passwordChangeBean.username
+    def newPassword = passwordChangeBean.toConfirmedPassword()
+    def httpClient = HttpClients.createDefault()
+    def httpPost = new HttpPost("http://rg-anka-deploy.ruijie-sourceid.svc/deploy/user/password/update")
+    httpPost.addHeader("Content-Type","application/json")
+    def json = new ObjectMapper().writeValueAsString([username: username, password: newPassword])
+    def stringEntity = new StringEntity(json, ContentType.create(ContentType.APPLICATION_JSON.getMimeType(), StandardCharsets.UTF_8))
+    httpPost.setEntity(stringEntity)
 
-    def sql = Sql.newInstance(url, user, password, 'org.postgresql.Driver')
-
-     sql.execute("UPDATE users SET pwd = ? WHERE username = ?", [passwordChangeBean.toConfirmedPassword(), passwordChangeBean.username])
-
-    sql.close()
-    switch (passwordChangeBean.username) {
-        case "bad-credential":
+    def response = httpClient.execute(httpPost) as CloseableHttpResponse
+    try {
+        if (response.getStatusLine().getStatusCode() == 200) {
+            // Handle successful response...
+            return true
+        } else {
+            // Handle failed response...
             return false
-        case "error-credential":
-            throw new InvalidPasswordException()
+        }
+    } finally {
+        response.close()
     }
-    return true
+
 }
 
 def findEmail(Object[] args) {
