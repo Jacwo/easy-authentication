@@ -160,7 +160,7 @@ public class JpaTicketRegistry extends AbstractTicketRegistry {
     @Override
     public Stream<? extends Ticket> stream() {
         val factory = getJpaTicketEntityFactory();
-        val sql = String.format("SELECT t FROM %s t ORDER BY t.id OFFSET 0 ROWS FETCH NEXT 1000 ROWS ONLY", factory.getEntityName());
+        val sql = String.format("SELECT t FROM %s t ORDER BY t.creationTime OFFSET 0 ROWS FETCH NEXT 1000 ROWS ONLY", factory.getEntityName());
         val query = entityManager.createQuery(sql, factory.getType());
         query.setLockMode(LockModeType.NONE);
         return jpaBeanFactory
