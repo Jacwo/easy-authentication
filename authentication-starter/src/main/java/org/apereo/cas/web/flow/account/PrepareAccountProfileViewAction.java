@@ -73,7 +73,7 @@ public class PrepareAccountProfileViewAction extends BaseCasWebflowAction {
                 buildAuthorizedServices(requestContext, ticket, service);
             }
             buildAuditLogRecords(requestContext, ticket);
-            buildActiveSingleSignOnSessions(requestContext, ticket);
+            //buildActiveSingleSignOnSessions(requestContext, ticket);
         });
         return success();
     }

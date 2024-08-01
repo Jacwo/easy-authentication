@@ -17,6 +17,7 @@ def change(Object[] args) {
     def username = passwordChangeBean.username
     def newPassword = passwordChangeBean.toConfirmedPassword()
     def httpClient = HttpClients.createDefault()
+    //def httpPost = new HttpPost("http://172.17.8.227:8990/deploy/user/password/update")
     def httpPost = new HttpPost("http://rg-anka-deploy.ruijie-sourceid.svc/deploy/user/password/update")
     httpPost.addHeader("Content-Type","application/json")
     def json = new ObjectMapper().writeValueAsString([username: username, password: newPassword])
@@ -27,8 +28,16 @@ def change(Object[] args) {
     try {
         if (response.getStatusLine().getStatusCode() == 200) {
             // Handle successful response...
+            logger.info("Password change request succeeded. Response status: ${response.getStatusLine().getStatusCode()}")
+            def text = response.getEntity().getContent().getText()
+            if(text.contains("412") || text.contains("300")){
+                return false;
+            }
+            logger.info("Response body: ${response.getEntity().getContent().getText()}")
             return true
         } else {
+            logger.info("Password change request failed. Response status: ${response.getStatusLine().getStatusCode()}")
+            logger.info("Response body: ${response.getEntity().getContent().getText()}")
             // Handle failed response...
             return false
         }
