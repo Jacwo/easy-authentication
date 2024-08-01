@@ -25,7 +25,11 @@ dependencies {
     implementation "org.apereo.cas:cas-server-support-oauth-services:$version"
     implementation "org.apereo.cas:cas-server-support-oauth-webflow:$version"
 
+    implementation "org.apereo.cas:cas-server-support-webauthn:$version"
+    implementation "org.apereo.cas:cas-server-support-webauthn-core:$version"
 
+    implementation "org.apereo.cas:cas-server-support-webauthn-core-webflow:$version"
+    implementation "org.apereo.cas:cas-server-support-webauthn-jpa:$version"
 
     implementation ("org.apereo.cas:cas-server-support-jpa-ticket-registry:$version") {
         exclude(group: "org.apereo.cas", module: "cas-server-core-monitor")

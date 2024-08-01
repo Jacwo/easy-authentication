@@ -133,7 +133,8 @@ public class RestAuthenticationHandler extends AbstractUsernamePasswordAuthentic
                 Map map = JSONObject.parseObject(JsonOutput.toJson(data), Map.class);
 
                 Map<String, List<Object>> attributes =new TreeMap<>();
-                attributes.put("id",Arrays.asList(map.get("id")));
+                attributes.put("id",Arrays.asList(map.get("userId")));
+                attributes.put("userId",Arrays.asList(map.get("account")));
                 attributes.put("tenantId",Arrays.asList(map.get("tenantId")));
                 val principal = principalFactory.createPrincipal(credential.getUsername(), attributes);
                 return createHandlerResult(credential, principal, getWarnings(response));
