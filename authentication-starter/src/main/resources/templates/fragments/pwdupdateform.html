@@ -57,7 +57,7 @@
         <form id="passwordManagementForm" th:if="${passwordManagementEnabled}" method="post"
               th:object="${password}">
             <div class="banner banner-danger alert alert-danger banner-dismissible my-4" th:if="${#fields.hasErrors('*')}">
-                <span th:each="err : ${#fields.errors('*')}" th:utext="${err}">Error text</span>
+                <span class="field-error" th:each="err : ${#fields.errors('*')}" th:utext="${err}">Error text</span>
             </div>
 
             <div class="cas-field my-3 mdc-input-group form-group d-flex">
