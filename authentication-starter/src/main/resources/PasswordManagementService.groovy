@@ -29,11 +29,12 @@ def change(Object[] args) {
         if (response.getStatusLine().getStatusCode() == 200) {
             // Handle successful response...
             logger.info("Password change request succeeded. Response status: ${response.getStatusLine().getStatusCode()}")
+            logger.info("Response body: ${response.getEntity().getContent().getText()}")
+
             def text = response.getEntity().getContent().getText()
             if(text.contains("412") || text.contains("300")){
                 return false;
             }
-            logger.info("Response body: ${response.getEntity().getContent().getText()}")
             return true
         } else {
             logger.info("Password change request failed. Response status: ${response.getStatusLine().getStatusCode()}")
