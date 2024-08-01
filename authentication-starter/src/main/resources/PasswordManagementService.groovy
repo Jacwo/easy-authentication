@@ -27,18 +27,18 @@ def change(Object[] args) {
     def response = httpClient.execute(httpPost) as CloseableHttpResponse
     try {
         if (response.getStatusLine().getStatusCode() == 200) {
-            // Handle successful response...
             logger.info("Password change request succeeded. Response status: ${response.getStatusLine().getStatusCode()}")
-            logger.info("Response body: ${response.getEntity().getContent().getText()}")
+            responseBody = response.getEntity().getContent().getText()
+            logger.info("Response body: ${responseBody}")
 
-            def text = response.getEntity().getContent().getText()
-            if(text.contains("412") || text.contains("300")){
+            if(responseBody.contains("412") || responseBody.contains("300")){
                 return false;
             }
             return true
         } else {
             logger.info("Password change request failed. Response status: ${response.getStatusLine().getStatusCode()}")
-            logger.info("Response body: ${response.getEntity().getContent().getText()}")
+            responseBody = response.getEntity().getContent().getText()
+            logger.info("Response body: ${responseBody}")
             // Handle failed response...
             return false
         }
