@@ -124,6 +124,7 @@ public class RestAuthenticationHandler extends AbstractUsernamePasswordAuthentic
                 .httpClient(httpClient)
                 .build();
             response = HttpUtils.execute(exec);
+            log.info("rest response {}",JSONObject.toJSONString(response));
             val content = ((HttpEntityContainer) response).getEntity().getContent();
             val result = IOUtils.toString(content, StandardCharsets.UTF_8);
             ResponseWrapper responseWrapper = JSONObject.parseObject(result, ResponseWrapper.class);
