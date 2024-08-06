@@ -20,6 +20,8 @@ def change(Object[] args) {
     //def httpPost = new HttpPost("http://172.17.8.227:8990/deploy/user/password/update")
     def httpPost = new HttpPost("http://rg-anka-deploy.ruijie-sourceid.svc/deploy/user/password/update")
     httpPost.addHeader("Content-Type","application/json")
+    byte[] bytes = username.getBytes(StandardCharsets.ISO_8859_1);
+    username = new String(bytes,StandardCharsets.UTF_8);
     def json = new ObjectMapper().writeValueAsString([username: username, password: newPassword])
     def stringEntity = new StringEntity(json, ContentType.create(ContentType.APPLICATION_JSON.getMimeType(), StandardCharsets.UTF_8))
     httpPost.setEntity(stringEntity)
