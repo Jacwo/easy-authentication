@@ -4,7 +4,7 @@ https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/
 https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/GPL/openjdk-21.0.2_linux-x64_bin.tar.gz
 
 - 下载gradle 8.5并配置环境变量 https://gradle.org/next-steps/?version=8.5&format=bin
-- 下载项目git clone http://gitlab.ruishan.cc/meta/anka-authentication.git
+- 下载项目git clone https://github.com/Jacwo/anka-authentication.git
 
 ## 开始
 -  配置jdk
@@ -46,7 +46,6 @@ https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/
 
 ## 如何新增功能
 
-- 查看cas7.0.4源码 gitlab已上传 https://gitlab.ruishan.cc/yangyuanliang/cas
 - 找到你想要新的功能对应的模块
 - 在当前项目中新增或者已有module中添加依赖
 - 依赖都要在对应module的build.gradle中添加
