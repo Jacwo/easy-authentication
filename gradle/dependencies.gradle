@@ -1,6 +1,6 @@
 ext.libraries = [
 
-        ankapac4j                  : [
+        easypac4j                  : [
                 dependencies.create("org.apereo.cas:cas-server-support-pac4j-api:$version") {
                 },
                 dependencies.create("org.apereo.cas:cas-server-support-pac4j-core:$version") {
@@ -10,7 +10,7 @@ ext.libraries = [
                 dependencies.create("org.apereo.cas:cas-server-support-pac4j-webflow:$version") {
                 },
         ],
-        ankaspringboot                  : [
+        easyspringboot                  : [
                 dependencies.create("org.springframework.boot:spring-boot-starter-parent:$springBootVersion") {
 
                 },
@@ -18,11 +18,11 @@ ext.libraries = [
 
                 },
         ],
-        ankacascompile             : [
+        easycascompile             : [
                 dependencies.create("org.apereo.cas:cas-server-support-jpa-util:$version") {
                 },
         ],
-        ankacas                    : [
+        easycas                    : [
 
                 dependencies.create("org.apereo.cas:cas-server-core-web-api:$version") {
                 },

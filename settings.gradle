@@ -1,4 +1,4 @@
-rootProject.name = 'anka-authentication'
+rootProject.name = 'easy-authentication'
 include 'authentication-starter'
 include 'authentication-pac4j'
 include 'authentication-jdbc'
