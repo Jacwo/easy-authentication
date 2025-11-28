@@ -7,6 +7,7 @@ dependencies {
     implementation project(":authentication-pac4j")
     implementation project(":authentication-jdbc")
     implementation project(":authentication-service")
+    implementation project(":authentication-mfa")
     implementation project(":authentication-rest")
     implementation project(":authentication-pm")
     implementation project(":authentication-api")
@@ -42,6 +43,7 @@ dependencies {
       implementation "org.apereo.cas:cas-server-support-gauth-jpa:$version"
       implementation "org.apereo.cas:cas-server-support-otp-mfa:$version"
       implementation "org.apereo.cas:cas-server-support-trusted-mfa:$version"
+     implementation "org.apereo.cas:cas-server-support-trusted-mfa-jdbc:$version"
 
       implementation "org.apereo.cas:cas-server-support-gauth-core:$version"
       implementation "org.apereo.cas:cas-server-support-gauth-core-mfa:$version"

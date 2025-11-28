@@ -73,12 +73,12 @@ public class PrepareAccountProfileViewAction extends BaseCasWebflowAction {
                 buildAuthorizedServices(requestContext, ticket, service);
             }
             buildAuditLogRecords(requestContext, ticket);
-            //buildActiveSingleSignOnSessions(requestContext, ticket);
+            // buildActiveSingleSignOnSessions(requestContext, ticket);
         });
         return success();
     }
-
     protected void buildActiveSingleSignOnSessions(final RequestContext requestContext, final TicketGrantingTicket ticket) {
+
         val activeSessions = ticketRegistry.getSessionsFor(ticket.getAuthentication().getPrincipal().getId())
             .map(TicketGrantingTicket.class::cast)
             .map(SingleSignOnSession::new)

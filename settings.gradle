@@ -109,3 +109,5 @@ dependencyResolutionManagement {
     }
 }
 
+
+include 'authentication-mfa'
