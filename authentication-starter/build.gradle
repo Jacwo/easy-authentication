@@ -32,24 +32,26 @@ dependencies {
     implementation "org.apereo.cas:cas-server-support-webauthn-core-webflow:$version"
     implementation "org.apereo.cas:cas-server-support-webauthn-jpa:$version"
     implementation "org.apereo.cas:cas-server-support-qr-authentication:$version"
-    implementation ("org.apereo.cas:cas-server-support-jpa-ticket-registry:$version") {
+    implementation("org.apereo.cas:cas-server-support-jpa-ticket-registry:$version") {
         exclude(group: "org.apereo.cas", module: "cas-server-core-monitor")
 
     }
     compileOnly "org.apereo.cas:cas-server-core-webflow-api:$version"
     compileOnly "org.apereo.cas:cas-server-core-services-api:$version"
 
-        implementation "org.apereo.cas:cas-server-support-gauth:$version"
-      implementation "org.apereo.cas:cas-server-support-gauth-jpa:$version"
-      implementation "org.apereo.cas:cas-server-support-otp-mfa:$version"
-      implementation "org.apereo.cas:cas-server-support-trusted-mfa:$version"
-     implementation "org.apereo.cas:cas-server-support-trusted-mfa-jdbc:$version"
+    implementation "org.apereo.cas:cas-server-support-gauth:$version"
+    implementation "org.apereo.cas:cas-server-support-gauth-jpa:$version"
+    implementation "org.apereo.cas:cas-server-support-otp-mfa:$version"
+    implementation "org.apereo.cas:cas-server-support-otp-mfa-core:$version"
 
-      implementation "org.apereo.cas:cas-server-support-gauth-core:$version"
-      implementation "org.apereo.cas:cas-server-support-gauth-core-mfa:$version"
-      implementation "org.apereo.cas:cas-server-core-webflow-mfa:$version"
-      implementation "org.apereo.cas:cas-server-core-webflow:$version"
-      implementation "org.apereo.cas:cas-server-core-webflow-api:$version"
-      implementation "org.apereo.cas:cas-server-core-webflow-mfa-api:$version"
+    implementation "org.apereo.cas:cas-server-support-trusted-mfa:$version"
+    implementation "org.apereo.cas:cas-server-support-trusted-mfa-jdbc:$version"
+
+  /*  implementation "org.apereo.cas:cas-server-support-gauth-core:$version"*/
+    implementation "org.apereo.cas:cas-server-support-gauth-core-mfa:$version"
+    implementation "org.apereo.cas:cas-server-core-webflow-mfa:$version"
+    implementation "org.apereo.cas:cas-server-core-webflow:$version"
+    implementation "org.apereo.cas:cas-server-core-webflow-api:$version"
+    implementation "org.apereo.cas:cas-server-core-webflow-mfa-api:$version"
 
 }

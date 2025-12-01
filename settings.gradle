@@ -6,7 +6,6 @@ include 'authentication-service'
 include 'authentication-rest'
 include 'authentication-pm'
 include 'authentication-api'
-
 dependencyResolutionManagement {
     repositories {
         repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -36,7 +35,7 @@ dependencyResolutionManagement {
         }
         maven {
             url "https://build.shibboleth.net/maven/releases/"
-            mavenContent {releasesOnly() }
+            mavenContent { releasesOnly() }
             content {
                 includeGroupByRegex "org\\.opensaml.*"
                 includeGroupByRegex "net\\.shibboleth.*"

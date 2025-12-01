@@ -32,7 +32,6 @@ import java.util.List;
 @EnableDiscoveryClient
 @SpringBootApplication(proxyBeanMethods = false, exclude = {
     DataSourceAutoConfiguration.class,
-    HibernateJpaAutoConfiguration.class,
     MongoAutoConfiguration.class,
     MongoDataAutoConfiguration.class,
 })
