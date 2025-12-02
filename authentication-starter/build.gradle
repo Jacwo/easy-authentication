@@ -31,11 +31,15 @@ dependencies {
 
     implementation "org.apereo.cas:cas-server-support-webauthn-core-webflow:$version"
     implementation "org.apereo.cas:cas-server-support-webauthn-jpa:$version"
-    implementation "org.apereo.cas:cas-server-support-qr-authentication:$version"
+/*    implementation "org.apereo.cas:cas-server-support-qr-authentication:$version"*/
     implementation("org.apereo.cas:cas-server-support-jpa-ticket-registry:$version") {
         exclude(group: "org.apereo.cas", module: "cas-server-core-monitor")
 
     }
+
+    implementation "org.apereo.cas:cas-server-support-captcha:$version"
+    implementation "org.apereo.cas:cas-server-support-captcha-core:$version"
+
     compileOnly "org.apereo.cas:cas-server-core-webflow-api:$version"
     compileOnly "org.apereo.cas:cas-server-core-services-api:$version"
 

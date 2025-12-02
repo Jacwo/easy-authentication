@@ -14,7 +14,7 @@
     <main class="container mt-3 mb-3">
         <div th:fragment="recaptchaToken">
             <span th:if="${recaptchaSiteKey != null AND #strings.equalsIgnoreCase(recaptchaVersion, 'GOOGLE_RECAPTCHA_V2')}" th:remove="tag">
-                <script src="https://www.google.com/recaptcha/api.js"></script>
+                <script src="https://www.recaptcha.net/recaptcha/api.js"></script>
                 <script type="text/javascript"
                         th:if="${recaptchaInvisible != null AND recaptchaInvisible}"
                         th:inline="javascript">
@@ -30,7 +30,7 @@
             </span>
 
             <span th:if="${recaptchaSiteKey != null AND #strings.equalsIgnoreCase(recaptchaVersion, 'GOOGLE_RECAPTCHA_V3')}" id="recaptchaV3Section">
-                <script th:src="${'//www.google.com/recaptcha/api.js?render=' + recaptchaSiteKey}"></script>
+                <script th:src="${'//www.recaptcha.net/recaptcha/api.js?render=' + recaptchaSiteKey}"></script>
                 <input type="hidden" id="g-recaptcha-token" name="g-recaptcha-token"/>
 
                 <script type="text/javascript" th:inline="javascript">
